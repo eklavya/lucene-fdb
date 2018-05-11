@@ -6,8 +6,9 @@ import com.apple.foundationdb.TransactionContext
 import com.apple.foundationdb.directory.DirectorySubspace
 import org.apache.lucene.store.BufferedIndexInput
 
-class FDBInput(file: FDBFile, ctx: TransactionContext, dir: DirectorySubspace)
-    extends BufferedIndexInput(file.name, 9 * 1024 * 1024) {
+class FDBInput(file: FDBFile, ctx: TransactionContext, bufferSize: Int)
+    extends BufferedIndexInput(file.name, bufferSize) {
+  // keeps track of the current position in the file where next read will begin
   private val position = new AtomicLong(0L)
 
   override def readInternal(b: Array[Byte], offset: Int, length: Int): Unit =

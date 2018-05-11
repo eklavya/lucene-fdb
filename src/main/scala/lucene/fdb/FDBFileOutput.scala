@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicLong
 import com.apple.foundationdb.TransactionContext
 import com.apple.foundationdb.directory.DirectorySubspace
 
-class FDBFileOutput(file: FDBFile, ctx: TransactionContext, dir: DirectorySubspace)
-    extends OutputStream {
+class FDBFileOutput(file: FDBFile, ctx: TransactionContext) extends OutputStream {
+  // keeps track of the current position in the file where next write will begin
   private val position = new AtomicLong(0L)
 
   override def write(b: Int): Unit = ctx.run { tr =>
